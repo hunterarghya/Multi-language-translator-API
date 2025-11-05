@@ -12,3 +12,8 @@ alembic==1.14.0
 psycopg[binary]
 deep-translator==1.11.4
 
+
+pytest
+flake8
+black
+
