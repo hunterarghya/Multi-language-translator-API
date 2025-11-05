@@ -9,13 +9,13 @@
 # load_dotenv()
 
 # OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-# OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")  
+# OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
 
 
 # client = OpenAI(api_key=OPENAI_API_KEY)
 
 # def perform_translation(task_id: int, text: str, languages: list):
-   
+
 #     db = SessionLocal()
 #     try:
 #         set_task_in_progress(db, task_id)
@@ -25,7 +25,7 @@
 #             prompt = f"Translate the following text into {lang}:\n\n{text}\n\nReply with only the translation."
 
 #             try:
-                
+
 #                 response = client.chat.completions.create(
 #                     model=OPENAI_MODEL,
 #                     messages=[
@@ -51,18 +51,13 @@
 #         db.close()
 
 
-
-
-
-
-
-
 import os
 import json
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.crud import update_translation_task, set_task_in_progress, set_task_failed
 from deep_translator import GoogleTranslator
+
 
 def perform_translation(task_id: int, text: str, languages: list):
 
@@ -73,13 +68,14 @@ def perform_translation(task_id: int, text: str, languages: list):
 
         for lang in languages:
             try:
-                translated_text = GoogleTranslator(source='auto', target=lang).translate(text)
+                translated_text = GoogleTranslator(
+                    source="auto", target=lang
+                ).translate(text)
                 translation[lang] = translated_text
             except Exception as e:
                 print(f"Error translating to {lang}: {e}")
                 translation[lang] = f"error: {str(e)}"
 
-        
         translation_str = json.dumps(translation, ensure_ascii=False)
         update_translation_task(db, task_id, translation_str)
 
@@ -88,5 +84,3 @@ def perform_translation(task_id: int, text: str, languages: list):
         set_task_failed(db, task_id, str(e))
     finally:
         db.close()
-
-
