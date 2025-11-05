@@ -1,7 +1,9 @@
 from sqlalchemy import Column, Integer, String, Text, JSON
 from sqlalchemy.orm import declarative_base
 
-Base = declarative_base()
+from app.database import Base
+
+# Base = declarative_base()
 
 class TranslationTask(Base):
     __tablename__ = "translation_tasks"

@@ -60,8 +60,8 @@
 import os
 import json
 from sqlalchemy.orm import Session
-from database import SessionLocal
-from crud import update_translation_task, set_task_in_progress, set_task_failed
+from app.database import SessionLocal
+from app.crud import update_translation_task, set_task_in_progress, set_task_failed
 from deep_translator import GoogleTranslator
 
 def perform_translation(task_id: int, text: str, languages: list):

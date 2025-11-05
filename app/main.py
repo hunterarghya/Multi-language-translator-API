@@ -3,11 +3,13 @@ from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
-import schemas
-import models
-from utils import perform_translation
-import crud
-from database import get_db, engine, Base
+# import schemas
+from app import schemas, crud, models
+# import models
+
+from app.utils import perform_translation
+# import crud
+from app.database import get_db, engine, Base
 from typing import List
 
 
@@ -15,7 +17,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 app.add_middleware(
     CORSMiddleware,
