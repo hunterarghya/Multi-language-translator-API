@@ -17,3 +17,4 @@ pytest
 flake8
 black
 
+psycopg2-binary
