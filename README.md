@@ -13,7 +13,7 @@ It allows translation of text into multiple languages in a single request, with 
 - **PostgreSQL** — Database for persistent storage
 - **OpenAI API** & **Deep Translator** — For translation processing
 - **Uvicorn** — ASGI web server
-- **Docker** — Containerization and deployment
+- **Docker** & **Docker Compose** — Containerization and deployment
 - **GitHub Actions** — CI/CD automation
 
 ---
@@ -43,23 +43,17 @@ pip install -r requirements.txt
 
 ### 4️⃣ Setup Environment Variables
 
+A `.env.example` file is included for reference.  
 Create a `.env` file in the project root:
-
-```bash
-OPENAI_API_KEY=your_openai_api_key
-OPENAI_MODEL=gpt-3.5-turbo
-DATABASE_URL=postgresql://user:password@localhost/translationservice
-```
 
 ### 5️⃣ Run the Server
 
 ```bash
-cd app
 uvicorn app.main:app --reload
 ```
 
 Then open your browser at:  
-👉 **http://127.0.0.1:8000**
+👉 **http://127.0.0.1:8000/index**
 
 ---
 
@@ -89,24 +83,44 @@ Then open your browser at:
 
 ## 🐳 Run with Docker
 
-Build and run the container:
+### Build and run directly:
 
 ```bash
-docker build -t polyglot-translator .
-docker run -d -p 8000:8000 polyglot-translator
+docker build -t translator .
+docker run -d -p 8000:8000 translator
 ```
+
+---
+
+## 🧱 Run with Docker Compose (Recommended)
+
+This project includes a **Docker Compose** file that launches the API along with PostgreSQL:
+
+```bash
+docker compose up --build
+```
+
+This will:
+
+- Start the FastAPI server
+- Initialize PostgreSQL using environment values from `.env`
+- Expose the API at **http://localhost:8000**
 
 ---
 
 ## 🔄 CI/CD (GitHub Actions)
 
-A simple CI pipeline can be set up using **GitHub Actions** to:
+This repository includes a **CI pipeline** that automatically runs on every push or pull request to `main`:
 
-- Automatically run tests
-- Lint code
-- Build and push Docker images
+The pipeline:
 
-This ensures every commit is validated before deployment.
+- Checks code formatting (Black)
+- Runs automated tests
+- Builds the Docker image using Buildx
+- Logs in to Docker Hub
+- Pushes the updated image to Docker Hub
+
+This ensures consistent quality and deploy-ready builds.
 
 ---
 
@@ -118,8 +132,8 @@ This project demonstrates:
 - Asynchronous request handling
 - Integration with third-party APIs (OpenAI, Deep Translator)
 - Database-backed task management with PostgreSQL
-- Containerization using Docker
-- CI/CD setup via GitHub Actions
+- Containerization using Docker & Docker Compose
+- CI/CD setup via GitHub Actions (build + test + push to DockerHub)
 
 ---
 
@@ -134,5 +148,5 @@ This project demonstrates:
 ## 👤 Author
 
 **Arghya Malakar**  
-📧 arghyaapply2016@gmail.com
+📧 arghyaapply2016@gmail.com  
 💻 [GitHub](https://github.com/hunterarghya)
