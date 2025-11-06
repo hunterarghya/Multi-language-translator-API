@@ -5,6 +5,19 @@ It allows translation of text into multiple languages in a single request, with 
 
 ---
 
+🚀 **Live Translator Demo:** [Try it here](https://multi-language-translator-api.onrender.com/index)
+
+### Usage Instructions
+
+- Enter the text you want to translate in the **Text to Translate** box.
+- Enter target languages using **ISO 639-1 language codes** (lowercase).  
+  Examples:
+  - `es` → Spanish
+  - `fr` → French
+  - `de` → German
+
+❗ **Important:** Use only lowercase codes. Do **not** use full language names (e.g., `spanish`, `French`) or uppercase codes (`ES`, `FR`).
+
 ## ⚙️ Tech Stack
 
 - **FastAPI** — Modern asynchronous Python web framework
