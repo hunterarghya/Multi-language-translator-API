@@ -180,12 +180,27 @@
 
               if (statusData.status === "completed") {
                 clearInterval(pollInterval);
+
+                let translations =
+                  statusData.translation || statusData.translations;
+
+                if (typeof translations === "string") {
+                  try {
+                    translations = JSON.parse(translations);
+                  } catch (e) {
+                    console.error(
+                      "Parsing error: backend returned malformed JSON"
+                    );
+                  }
+                }
+
+                let output = "";
+                for (const lang in translations) {
+                  output += `${lang}: ${translations[lang]}\n`;
+                }
+
                 document.getElementById("resultBox").textContent =
-                  JSON.stringify(
-                    statusData.translation || statusData.translations,
-                    null,
-                    2
-                  );
+                  output.trim();
               } else if (statusData.status === "failed") {
                 clearInterval(pollInterval);
                 document.getElementById("resultBox").textContent =
