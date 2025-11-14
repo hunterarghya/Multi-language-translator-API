@@ -75,7 +75,7 @@
           const taskId = result.task_id;
 
           document.getElementById("resultBox").textContent =
-            `Task ${taskId} created.\nFetching translation...`;
+            `Fetching translation...`;
 
           // Poll backend every 2 seconds for the result
           const pollInterval = setInterval(async () => {
@@ -88,12 +88,34 @@
 
               if (statusData.status === "completed") {
                 clearInterval(pollInterval);
+
+                let translations =
+                  statusData.translation || statusData.translations;
+
+                if (typeof translations === "string") {
+                  try {
+                    translations = JSON.parse(translations);
+                  } catch (e) {
+                    console.error(
+                      "Parsing error: backend returned malformed JSON"
+                    );
+                  }
+                }
+
+                let output = "";
+                for (const lang in translations) {
+                  output += `${lang}: ${translations[lang]}\n`;
+                }
+
                 document.getElementById("resultBox").textContent =
-                  JSON.stringify(
-                    statusData.translation || statusData.translations,
-                    null,
-                    2
-                  );
+                  output.trim();
+                // clearInterval(pollInterval);
+                // document.getElementById("resultBox").textContent =
+                //   JSON.stringify(
+                //     statusData.translation || statusData.translations,
+                //     null,
+                //     2
+                //   );
               } else if (statusData.status === "failed") {
                 clearInterval(pollInterval);
                 document.getElementById("resultBox").textContent =
